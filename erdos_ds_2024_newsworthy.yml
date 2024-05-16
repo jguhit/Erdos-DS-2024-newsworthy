@@ -33,4 +33,5 @@ dependencies:
       - lxml
       - pynytimes
       - textblob
+      - vaderSentiment
 
