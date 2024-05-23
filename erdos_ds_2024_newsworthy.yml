@@ -34,4 +34,6 @@ dependencies:
       - pynytimes
       - textblob
       - vaderSentiment
+      - aiohttp
+      - nest_asyncio
 
