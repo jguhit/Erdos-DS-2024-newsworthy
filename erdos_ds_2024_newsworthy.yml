@@ -36,4 +36,5 @@ dependencies:
       - vaderSentiment
       - aiohttp
       - nest_asyncio
+      - plotly
 
