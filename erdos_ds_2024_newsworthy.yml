@@ -37,4 +37,5 @@ dependencies:
       - aiohttp
       - nest_asyncio
       - plotly
-      
+
+
