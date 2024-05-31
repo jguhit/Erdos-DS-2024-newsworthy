@@ -19,8 +19,28 @@ def separate_by_stock():
     
     return ticker_frames
 
+# separates the data into train and test sets, leaving out the last year of data as the test set
 def train_test_split(df):
     train = df.loc[df.index < datetime.datetime(2023,3,1)].copy()
     test = df.drop(train.index).copy()
     return (train, test)
+
+# creates a column in the dataframe called "Diff" which is the first differences of the Open price
+def create_first_diff(df):
+    df['Diff'] = df.Open.diff()
+    return df
+
+# takes in the training set and returns a list of indices for training and validation
+def get_cv_splits(df):
+    dates = [datetime.datetime(2022,3,1),
+             datetime.datetime(2022,6,1),
+             datetime.datetime(2022,9,1),
+             datetime.datetime(2022,12,1),
+             datetime.datetime(2023,3,1)]
+    splits = []
+    for i in range(len(dates)-1):
+        train_idx = df.loc[df.index < dates[i]].index
+        test_idx = df.loc[(df.index >= dates[i]) & (df.index < dates[i+1])].index
+        splits.append((train_idx, test_idx))
+    return splits
 
