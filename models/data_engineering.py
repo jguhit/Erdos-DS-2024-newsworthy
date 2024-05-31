@@ -18,6 +18,9 @@ def separate_by_stock():
     # read in full data set
     df = pd.read_csv('../data/complete_next_open.csv')
 
+    df['Market Date'] = pd.to_datetime(df['Market Date'])
+    df = df.drop(df.loc[df['Market Date'] < datetime.datetime(2019,3,15)].index)
+
     # create overall sentiment column
     df['overall_sen'] = df['finvader_tot'].apply(_overall_sentiment)
     df['overall_sen'] = df['overall_sen'].astype('category')
@@ -46,7 +49,9 @@ def separate_by_stock():
     df_mean['total_articles'] = df_mean['pos_art_count'] + df_mean['neg_art_count'] + df_mean['neu_art_count']
 
     # change market date to datetime format
-    df_mean['Market Date'] = pd.to_datetime(df_mean['Market Date'])
+    #df_mean['Market Date'] = pd.to_datetime(df_mean['Market Date'])
+
+
 
 
     tickers = df_mean['Ticker'].unique()
@@ -55,6 +60,11 @@ def separate_by_stock():
     ticker_frames = {}
     for tick in tickers:
         ticker_frames[tick] = df_mean.loc[df_mean['Ticker'] == tick].set_index('Market Date').drop(columns = ['Ticker', 'Dividends'])
+        ticker_frames[tick]["Open_Diff"] = ticker_frames[tick].Open.diff()
+        ticker_frames[tick].iloc[0, -1] = 0
+        ticker_frames[tick]["y"] = ticker_frames[tick].Open_Diff.shift(periods=-1) # y column reflects tomorrow's change in price
+        ticker_frames[tick] = ticker_frames[tick].iloc[:-1] # throw out the last row where y = nan
+        
     
     return ticker_frames
 
@@ -63,11 +73,6 @@ def train_test_split(df):
     train = df.loc[df.index < datetime.datetime(2023,3,1)].copy()
     test = df.drop(train.index).copy()
     return (train, test)
-
-# creates a column in the dataframe called "Diff" which is the first differences of the Open price
-def create_first_diff(df):
-    df['Diff'] = df.Open.diff()
-    return df
 
 # takes in the training set and returns a list of indices for training and validation
 def get_cv_splits(df):
