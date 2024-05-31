@@ -3,19 +3,58 @@
 import pandas as pd
 import datetime
 
+# determines if the sentiment of an article is positive, negative, or neutral
+def _overall_sentiment(x:int):
+    threshold = .1
+    if x > threshold:
+        return 'pos'
+    elif x < -threshold:
+        return 'neg'
+    else:
+        return 'neu'
+
 # reads from the complete.csv file and returns a dictionary of dataframes where the keys are the tickers
 def separate_by_stock():
-    df_all = pd.read_csv('../data/complete.csv')
-    df_all['Market Time'] = pd.to_datetime(df_all['Market Time'], utc = True)
-    df_all['Publishing Time'] = pd.to_datetime(df_all['Publishing Time'], utc = True)
-    df_all['Date'] = pd.to_datetime(df_all['Date'])
+    # read in full data set
+    df = pd.read_csv('../data/complete_next_open.csv')
 
-    tickers = df_all['Ticker'].unique()
+    # create overall sentiment column
+    df['overall_sen'] = df['finvader_tot'].apply(_overall_sentiment)
+    df['overall_sen'] = df['overall_sen'].astype('category')
 
+    # value counts for overall sentiment by market date and ticker
+    counts = df.groupby(['Market Date', 'Ticker'])['overall_sen'].value_counts()
+
+    # we will take the mean of each of these features
+    features = ['finvader_neg',
+            'finvader_neu',
+            'finvader_pos',
+            'finvader_tot',
+            'Open',
+            'High',
+            'Low',
+            'Close',
+            'Volume',
+            'Dividends',
+            'Stock Splits']
+    df_mean = df.groupby(['Market Date', 'Ticker'])[features].mean().reset_index()
+
+    # add in the article counts to the df_mean dataframe
+    labels = {'pos_art_count':'pos', 'neg_art_count':'neg', 'neu_art_count':'neu'}
+    for l in labels:
+        df_mean[l] = df_mean.apply(lambda x: counts.loc[x['Market Date'], x['Ticker']][labels[l]], axis = 1)
+    df_mean['total_articles'] = df_mean['pos_art_count'] + df_mean['neg_art_count'] + df_mean['neu_art_count']
+
+    # change market date to datetime format
+    df_mean['Market Date'] = pd.to_datetime(df_mean['Market Date'])
+
+
+    tickers = df_mean['Ticker'].unique()
+
+    # create dictionary of data frames, one for each ticker
     ticker_frames = {}
-    df_t = df_all.groupby(['Date', 'Ticker'])[['sentiment_tot', 'finvader', 'Open', 'Close']].mean().reset_index()
     for tick in tickers:
-        ticker_frames[tick] = df_t[df_t['Ticker'] == tick].set_index('Date')
+        ticker_frames[tick] = df_mean.loc[df_mean['Ticker'] == tick].set_index('Market Date').drop(columns = ['Ticker', 'Dividends'])
     
     return ticker_frames
 
