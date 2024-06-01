@@ -32,6 +32,6 @@ def get_performance(trade_dict, test_dict):
     for i in range(1,n):
         x_t[i] = x_t[i-1] / 2
         for tick in trade_dict:
-            x_t[i] += trade_dict[tick][i-1] * ( (x_t[i-1] / 30) * (1 + (test_dict[tick][i] - test_dict[i-1]) / test_dict[i-1]) ) 
+            x_t[i] += (x_t[i-1] / 30) * (1 + trade_dict[tick][i-1] * (test_dict[tick][i] - test_dict[tick][i-1]) / test_dict[tick][i-1])
     return x_t[-1]
 
