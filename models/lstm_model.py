@@ -36,7 +36,7 @@ def forecast_lstm(model, batch_size, X):
 # takes in train and test dataframes with appropriate columns
 # fits the lstm model and makes predictions on the test set
 # returns both the betting strategy and the predicted change in price
-def run_lstm_model(train, test):
+def run_lstm_model(train, test, epochs=10, neurons=3):
     X, y = train.drop(columns=['y']).values, train.y.values
 
     X_test, y_test = test.drop(columns=['y']).values, test.y.values
@@ -51,7 +51,7 @@ def run_lstm_model(train, test):
     
     X_test = scaler_X.transform(X_test)
 
-    model = fit_lstm(X, y, 1, 10, 3)
+    model = fit_lstm(X, y, 1, epochs, neurons)
 
     # forecast the entire training dataset to build up state for forecasting
     X_reshaped = X.reshape(X.shape[0], 1, X.shape[1])
