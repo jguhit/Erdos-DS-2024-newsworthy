@@ -20,3 +20,18 @@ For a given model, collect ALL the trading predictions on validation sets and AL
 
 Combine them into a single data frame. Iterate through and update x. Report x_T / x_0
 """
+
+# Inputs:
+# trade_dict -- dictionary of numpy arrays containing trading instructions (1:buy, 0:do nothing, -1:sell) on the test set
+# test_dict -- dictionary of numpy arrays containing the opening price values on the test set
+# Output:
+# (Simple) Percent growth of the portfolio over that period.
+def get_performance(trade_dict, test_dict):
+    n = len(trade_dict["AAPL"])
+    x_t = [1] * n
+    for i in range(1,n+1):
+        x_t[i] = x_t[i-1] / 2
+        for tick in trade_dict:
+            x_t[i] += trade_dict[tick][i] * ( (x_t[i-1] / 30) * (1 + (test_dict[tick][i] - test_dict[i-1]) / test_dict[i-1]) ) 
+    return x_t[n]
+
