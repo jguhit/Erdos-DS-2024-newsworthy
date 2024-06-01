@@ -5,7 +5,7 @@ At time t, each of the 15 stocks recommends we either buy or short that stock.
 For each stock, we wager x/30 units in buying/shorting.
 We calculate the next days value of the portfolio as follows:
 
-x_{t+1} = x_t / 2 + \sum((-1)^(short) x/30 * (1 + pct change in stock i))
+x_{t+1} = x_t / 2 + \sum((-1)^(short) x_t / 30 * (1 + pct change in stock i))
 
 where short = 1 if we choose to short stock i and 0 otherwise
 
@@ -29,9 +29,9 @@ Combine them into a single data frame. Iterate through and update x. Report x_T 
 def get_performance(trade_dict, test_dict):
     n = len(trade_dict["AAPL"])
     x_t = [1] * n
-    for i in range(1,n+1):
+    for i in range(1,n):
         x_t[i] = x_t[i-1] / 2
         for tick in trade_dict:
-            x_t[i] += trade_dict[tick][i] * ( (x_t[i-1] / 30) * (1 + (test_dict[tick][i] - test_dict[i-1]) / test_dict[i-1]) ) 
-    return x_t[n]
+            x_t[i] += trade_dict[tick][i-1] * ( (x_t[i-1] / 30) * (1 + (test_dict[tick][i] - test_dict[i-1]) / test_dict[i-1]) ) 
+    return x_t[-1]
 
