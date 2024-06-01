@@ -1,0 +1,16 @@
+,AAPL,ABBV,AMZN,BAC,GOOGL,JNJ,JPM,LLY,MA,MRK,MSFT,NVDA,UNH,V,WFC
+AAPL,"['finvader_pos', 'Open', 'Volume', 'neg_art_count']",,,,,,,,,,,,,,
+ABBV,,"['finvader_neg', 'Open', 'High', 'Low', 'Close']",,,,,,,,,,,,,
+AMZN,,,"['finvader_neg', 'finvader_neu', 'finvader_pos', 'finvader_tot', 'Open', 'High', 'Low', 'Close', 'Volume', 'total_articles']",,,,,,,,,,,,
+BAC,,,,"['finvader_neg', 'finvader_neu', 'finvader_pos', 'finvader_tot', 'Open', 'High', 'Close', 'Volume', 'pos_art_count']",,,,,,,,,,,
+GOOGL,,,,,"['finvader_pos', 'finvader_tot', 'Open', 'High', 'Low', 'Close', 'Volume']",,,,,,,,,,
+JNJ,,,,,,"['finvader_neg', 'finvader_neu', 'finvader_pos', 'finvader_tot', 'Open', 'High', 'Low', 'Close', 'Volume', 'pos_art_count', 'neg_art_count', 'neu_art_count', 'total_articles']",,,,,,,,,
+JPM,,,,,,,"['finvader_neg', 'finvader_neu', 'finvader_pos', 'finvader_tot', 'Open', 'High', 'Low', 'Close', 'Volume', 'pos_art_count', 'neg_art_count', 'neu_art_count', 'total_articles']",,,,,,,,
+LLY,,,,,,,,"['finvader_neg', 'finvader_neu', 'finvader_pos', 'finvader_tot', 'Open', 'Close']",,,,,,,
+MA,,,,,,,,,"['finvader_neg', 'finvader_neu', 'finvader_pos', 'finvader_tot', 'Open', 'High', 'Low', 'Close', 'Volume', 'pos_art_count', 'total_articles']",,,,,,
+MRK,,,,,,,,,,"['finvader_neg', 'finvader_neu', 'finvader_pos', 'finvader_tot', 'Open', 'High', 'Low', 'Close', 'Volume', 'pos_art_count', 'total_articles']",,,,,
+MSFT,,,,,,,,,,,"['finvader_neg', 'finvader_pos', 'finvader_tot', 'Open', 'Volume']",,,,
+NVDA,,,,,,,,,,,,"['finvader_pos', 'Open', 'Close']",,,
+UNH,,,,,,,,,,,,,"['finvader_neu', 'finvader_pos', 'finvader_tot', 'Open', 'High', 'Low', 'Close']",,
+V,,,,,,,,,,,,,,"['finvader_neg', 'finvader_neu', 'finvader_pos', 'finvader_tot', 'Open', 'High', 'Low', 'Close', 'Volume', 'pos_art_count', 'total_articles']",
+WFC,,,,,,,,,,,,,,,"['finvader_neg', 'finvader_neu', 'finvader_pos', 'finvader_tot', 'Open', 'High', 'Close', 'Volume', 'pos_art_count', 'total_articles']"
