@@ -19,7 +19,7 @@ def separate_by_stock():
     df = pd.read_csv('../data/complete_next_open.csv')
 
     df['Market Date'] = pd.to_datetime(df['Market Date'])
-    df = df.drop(df.loc[df['Market Date'] < datetime.datetime(2019,3,15)].index)
+    # df = df.drop(df.loc[df['Market Date'] < datetime.datetime(2019,3,15)].index)
 
     # create overall sentiment column
     df['overall_sen'] = df['finvader_tot'].apply(_overall_sentiment)
@@ -34,18 +34,20 @@ def separate_by_stock():
             'finvader_pos',
             'finvader_tot',
             'Open',
-            'High',
-            'Low',
-            'Close',
-            'Volume',
-            'Dividends',
-            'Stock Splits']
+            # 'High',
+            # 'Low',
+            # 'Close',
+            # 'Volume',
+            # 'Dividends',
+            # 'Stock Splits'
+            ]
     df_mean = df.groupby(['Market Date', 'Ticker'])[features].mean().reset_index()
 
     # add in the article counts to the df_mean dataframe
     labels = {'pos_art_count':'pos', 'neg_art_count':'neg', 'neu_art_count':'neu'}
     for l in labels:
         df_mean[l] = df_mean.apply(lambda x: counts.loc[x['Market Date'], x['Ticker']][labels[l]], axis = 1)
+    df_mean.loc[df_mean['finvader_tot'].isna(), 'neu_art_count'] = 0
     df_mean['total_articles'] = df_mean['pos_art_count'] + df_mean['neg_art_count'] + df_mean['neu_art_count']
 
     # change market date to datetime format
@@ -59,11 +61,18 @@ def separate_by_stock():
     # create dictionary of data frames, one for each ticker
     ticker_frames = {}
     for tick in tickers:
-        ticker_frames[tick] = df_mean.loc[df_mean['Ticker'] == tick].set_index('Market Date').drop(columns = ['Ticker', 'Dividends'])
+        ticker_frames[tick] = df_mean.loc[df_mean['Ticker'] == tick].set_index('Market Date').drop(columns = ['Ticker'])
         ticker_frames[tick]["Open_Diff"] = ticker_frames[tick].Open.diff()
         ticker_frames[tick].iloc[0, -1] = 0
         ticker_frames[tick]["y"] = ticker_frames[tick].Open_Diff.shift(periods=-1) # y column reflects tomorrow's change in price
-        ticker_frames[tick] = ticker_frames[tick].iloc[:-1] # throw out the last row where y = nan
+        # ticker_frames[tick] = ticker_frames[tick].iloc[:-1] # throw out the last row where y = nan
+        # ticker_frames[tick] = ticker_frames[tick].fillna(0)
+        # ticker_frames[tick]['3avg Open'] = ticker_frames[tick]['Open'].rolling(window = 3).mean()
+        # ticker_frames[tick]['7avg Open'] = ticker_frames[tick]['Open'].rolling(window= 7).mean()
+        # ticker_frames[tick]['3fin'] = ticker_frames[tick]['finvader_tot'].rolling(window = 3).mean()
+        # ticker_frames[tick]['7fin'] = ticker_frames[tick]['finvader_tot'].rolling(window = 7).mean()
+        c0 = ticker_frames[tick].index.to_series().between(left = '2019-03-15', right = '2024-03-18', inclusive = 'both')
+        ticker_frames[tick] = ticker_frames[tick][c0]
         
     
     return ticker_frames

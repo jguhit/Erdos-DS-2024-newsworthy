@@ -1,6 +1,6 @@
 ,AAPL,ABBV,AMZN,BAC,GOOGL,JNJ,JPM,LLY,MA,MRK,MSFT,NVDA,UNH,V,WFC
-0,Open,finvader_neu,Open,finvader_pos,finvader_pos,finvader_neg,finvader_tot,neg_art_count,finvader_tot,finvader_neu,finvader_pos,Close,finvader_neg,finvader_pos,finvader_neu
-1,Close,Open,neu_art_count,Open,Open,finvader_neu,Close,neu_art_count,Close,finvader_pos,Close,Volume,Open,Open,finvader_tot
-2,total_articles,Close,total_articles,Close,Close,Open,neg_art_count,total_articles,pos_art_count,Open,Volume,total_articles,Close,Close,Close
-3,3avg Open,pos_art_count,3avg Open,neu_art_count,neu_art_count,Close,3avg Open,3avg Open,neg_art_count,Close,3avg Open,3avg Open,neg_art_count,3avg Open,3avg Open
-4,7avg Open,7avg Open,7avg Open,3avg Open,3avg Open,7avg Open,7avg Open,7avg Open,7avg Open,neu_art_count,7avg Open,7avg Open,7avg Open,7avg Open,7avg Open
+0,finvader_tot,finvader_neu,Open,finvader_neg,finvader_neg,finvader_neg,finvader_neu,neg_art_count,finvader_tot,finvader_neu,finvader_pos,Low,finvader_neg,finvader_pos,finvader_neu
+1,neu_art_count,Low,neu_art_count,finvader_pos,finvader_neu,finvader_pos,finvader_tot,neu_art_count,pos_art_count,finvader_pos,Low,Volume,Open,Low,finvader_tot
+2,total_articles,pos_art_count,total_articles,Low,finvader_pos,Open,Low,total_articles,neg_art_count,finvader_tot,Volume,total_articles,Low,Volume,High
+3,3avg Open,3avg Open,3avg Open,neu_art_count,neu_art_count,Low,neg_art_count,3avg Open,3avg Open,Open,3avg Open,3avg Open,Volume,3avg Open,Low
+4,7avg Open,7avg Open,7avg Open,3avg Open,7avg Open,3avg Open,7avg Open,7avg Open,7avg Open,neu_art_count,7avg Open,7avg Open,neg_art_count,7avg Open,7avg Open
