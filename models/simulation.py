@@ -25,7 +25,7 @@ Combine them into a single data frame. Iterate through and update x. Report x_T 
 # trade_dict -- dictionary of numpy arrays containing trading instructions (1:buy, 0:do nothing, -1:sell) on the test set
 # test_dict -- dictionary of numpy arrays containing the opening price values on the test set
 # Output:
-# (Simple) Percent growth of the portfolio over that period.
+# The final value of the portfolio relative to the initial value (e.g. returns 0.98 to reflect 2% loss or 1.02 to reflect 2% growth)
 def get_performance(trade_dict, test_dict):
     n = len(trade_dict["AAPL"])
     x_t = [1] * n
